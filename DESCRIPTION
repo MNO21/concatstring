@@ -1,0 +1,14 @@
+Package: concatstring
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+        person("Mikkel", "Noergaard", email = "mno21@student.aau.dk", role = c("aut", "cre")),
+        person("Chris Moeller", "Noergaard", email = "cnor21@student.aau.dk", role = "aut"),
+        person("Rasmus Flaathen", "Soender", email = "rsond21@student.aau.dk", role = "aut")
+    )
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
