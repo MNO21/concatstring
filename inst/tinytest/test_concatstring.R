@@ -1,7 +1,9 @@
-res1 <- concat_strings("Hello", "World")
-expect_s3_class(res1, "concat_result")
-expect_equal(as.character(res1), "Hello World")
+expect_equal(concat_strings("Hello", "World")$result, "Hello World")
+expect_equal(concat_strings(c("Good", "Bad"), c("Morning", "Luck"))$result,
+             c("Good Morning", "Bad Luck"))
+expect_inherits(concat_strings("Hello", "World"), "concat_result")
 
-res2 <- concat_strings("Good", "Morning")
-expect_s3_class(res2, "concat_result")
-expect_equal(as.character(res2), "Good Morning")
+res <- concat_strings("Hello", "World")
+expect_inherits(print(res), "concat_result")
+expect_inherits(summary(res), "concat_result")
+expect_warning(plot(res), "Not enough data")

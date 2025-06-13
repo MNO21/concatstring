@@ -6,6 +6,11 @@
 \usage{
 \method{plot}{concat_result}(x, ...)
 }
+\arguments{
+\item{x}{An object of class \code{concat_result}.}
+
+\item{...}{Additional graphical arguments passed to barplot.}
+}
 \description{
 Plot method for concat_result objects
 }

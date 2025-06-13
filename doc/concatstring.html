@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>concatstring</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">concatstring</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(concatstring)</span></code></pre></div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The <code>concatstring</code> package is a lightweight R package
+designed to combine two character vectors elementwise using
+<code>paste()</code>, returning the result as a structured object of
+class <code>concat_result</code>.</p>
+<div id="why-use-this-package" class="section level3">
+<h3>Why use this package?</h3>
+<p>This package provides:</p>
+<ul>
+<li>A custom S3 class (<code>concat_result</code>) to wrap the
+result</li>
+<li>A <code>print()</code> method for clean console output</li>
+<li>A <code>summary()</code> method for descriptive summaries</li>
+<li>A <code>plot()</code> method for visualising string lengths</li>
+</ul>
+<p>It’s intended for teaching, lightweight text analysis, or wrapping
+basic string operations in a reusable and extensible format.</p>
+<hr />
+</div>
+</div>
+<div id="basic-usage" class="section level2">
+<h2>Basic usage</h2>
+<p>You can combine two strings using:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">concat_strings</span>(<span class="st">&quot;Hello&quot;</span>, <span class="st">&quot;World&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; Concatenated result:</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello World&quot;</span></span></code></pre></div>
+<p>This returns an object of class <code>concat_result</code>, which
+contains:</p>
+<ul>
+<li>The original inputs <code>x</code> and <code>y</code></li>
+<li>The concatenated result <code>result</code></li>
+<li>The class <code>&quot;concat_result&quot;</code></li>
+</ul>
+<hr />
+</div>
+<div id="vector-input" class="section level2">
+<h2>Vector input</h2>
+<p>The function is vectorised, meaning it works elementwise over
+character vectors of the same length:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">concat_strings</span>(<span class="fu">c</span>(<span class="st">&quot;Fast&quot;</span>, <span class="st">&quot;Strong&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;Car&quot;</span>, <span class="st">&quot;Wind&quot;</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; Concatenated result:</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Fast Car&quot;    &quot;Strong Wind&quot;</span></span></code></pre></div>
+<hr />
+</div>
+<div id="output-structure" class="section level2">
+<h2>Output structure</h2>
+<p>You can inspect the structure of a <code>concat_result</code> object
+using <code>str()</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">concat_strings</span>(<span class="st">&quot;Hello&quot;</span>, <span class="st">&quot;World&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">str</span>(res)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;  $ x     : chr &quot;Hello&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;  $ y     : chr &quot;World&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;  $ result: chr &quot;Hello World&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr &quot;concat_result&quot;</span></span></code></pre></div>
+<hr />
+</div>
+<div id="s3-methods" class="section level2">
+<h2>S3 methods</h2>
+<p>The package includes print, summary, and plot methods specific to
+<code>concat_result</code>.</p>
+<div id="print" class="section level3">
+<h3>Print</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">print</span>(res)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; Concatenated result:</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello World&quot;</span></span></code></pre></div>
+</div>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">summary</span>(res)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; Summary of concatenated result:</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Number of input elements: 1 </span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; First few results:</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello World&quot;</span></span></code></pre></div>
+<p>This tells you how many elements were concatenated and shows the
+first few results.</p>
+<hr />
+</div>
+<div id="plot" class="section level3">
+<h3>Plot</h3>
+<p>When the result contains multiple elements, the <code>plot()</code>
+method creates a barplot of string lengths:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>multi <span class="ot">&lt;-</span> <span class="fu">concat_strings</span>(<span class="fu">c</span>(<span class="st">&quot;Quick&quot;</span>, <span class="st">&quot;Tiny&quot;</span>, <span class="st">&quot;Solid&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;Fox&quot;</span>, <span class="st">&quot;Stone&quot;</span>, <span class="st">&quot;Wall&quot;</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">plot</span>(multi)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>If only one concatenated string is present, a warning is shown:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>single <span class="ot">&lt;-</span> <span class="fu">concat_strings</span>(<span class="st">&quot;One&quot;</span>, <span class="st">&quot;Word&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">plot</span>(single)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; Warning in plot.concat_result(single): Not enough data to create a meaningful</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; plot. Need at least 2 strings.</span></span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>This package demonstrates how basic string operations can be extended
+using S3 object-oriented programming in R. It’s ideal for learning how
+to wrap functionality into reusable and testable code, and for showing
+how to build a minimal, clean R package with proper testing,
+documentation, and extensibility.</p>
+<hr />
+</div>
+<div id="license" class="section level2">
+<h2>License</h2>
+<p>MIT © 2025</p>
+<p>```</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

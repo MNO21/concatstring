@@ -23,7 +23,6 @@ summary.concat_result <- function(object, ...) {
 }
 
 #' Plot method for concat_result objects
-#'
 #' @param x An object of class `concat_result`.
 #' @param ... Additional graphical arguments passed to barplot.
 #' @export
