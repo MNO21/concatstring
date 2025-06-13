@@ -12,12 +12,17 @@ concat_strings(x, y)
 \item{y}{A character vector.}
 }
 \value{
-A character vector with \code{x} and \code{y} pasted together elementwise.
+An object of class \code{concat_result}, containing the original vectors and the result.
 }
 \description{
-Concatenates two character vectors elementwise using \code{paste()}.
+Concatenates two character vectors elementwise using \code{paste()} and returns
+a custom S3 object of class \code{concat_result}.
 }
 \examples{
-concat_strings("Hello", "World")
-concat_strings(c("Good", "Bad"), c("Morning", "Luck"))
+res <- concat_strings("Hello", "World")
+print(res)
+summary(res)
+
+res2 <- concat_strings(c("Good", "Bad"), c("Morning", "Luck"))
+plot(res2)
 }
