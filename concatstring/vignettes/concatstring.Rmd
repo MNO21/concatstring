@@ -1,0 +1,134 @@
+Great catch — the problem is that the YAML header and the first code chunk are surrounded by four backticks \`\`\`\` instead of three \`\`\`.
+
+R Markdown **requires code chunks to be enclosed by exactly three backticks**. Anything else (like \`\`\`\`) will cause the error you’re seeing:
+
+> `The closing fence on line 20 ("````") ... does not match the opening fence "```" on line 15.`
+
+---
+
+### ✅ Fixed version — ready to copy into `concatstring.Rmd`
+
+````rmd
+---
+title: "concatstring"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{concatstring}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(concatstring)
+```
+
+## Introduction
+
+The `concatstring` package is a lightweight R package designed to combine two character vectors elementwise using `paste()`, returning the result as a structured object of class `concat_result`.
+
+### Why use this package?
+
+This package provides:
+
+* A custom S3 class (`concat_result`) to wrap the result
+* A `print()` method for clean console output
+* A `summary()` method for descriptive summaries
+* A `plot()` method for visualising string lengths
+
+It’s intended for teaching, lightweight text analysis, or wrapping basic string operations in a reusable and extensible format.
+
+---
+
+## Basic usage
+
+You can combine two strings using:
+
+```{r basic}
+concat_strings("Hello", "World")
+```
+
+This returns an object of class `concat_result`, which contains:
+
+* The original inputs `x` and `y`
+* The concatenated result `result`
+* The class `"concat_result"`
+
+---
+
+## Vector input
+
+The function is vectorised, meaning it works elementwise over character vectors of the same length:
+
+```{r vector}
+concat_strings(c("Fast", "Strong"), c("Car", "Wind"))
+```
+
+---
+
+## Output structure
+
+You can inspect the structure of a `concat_result` object using `str()`:
+
+```{r structure}
+res <- concat_strings("Hello", "World")
+str(res)
+```
+
+---
+
+## S3 methods
+
+The package includes print, summary, and plot methods specific to `concat_result`.
+
+### Print
+
+```{r print}
+print(res)
+```
+
+### Summary
+
+```{r summary}
+summary(res)
+```
+
+This tells you how many elements were concatenated and shows the first few results.
+
+---
+
+### Plot
+
+When the result contains multiple elements, the `plot()` method creates a barplot of string lengths:
+
+```{r plot}
+multi <- concat_strings(c("Quick", "Tiny", "Solid"), c("Fox", "Stone", "Wall"))
+plot(multi)
+```
+
+If only one concatenated string is present, a warning is shown:
+
+```{r plot-warning}
+single <- concat_strings("One", "Word")
+plot(single)
+```
+
+---
+
+## Conclusion
+
+This package demonstrates how basic string operations can be extended using S3 object-oriented programming in R. It’s ideal for learning how to wrap functionality into reusable and testable code, and for showing how to build a minimal, clean R package with proper testing, documentation, and extensibility.
+
+---
+
+## License
+
+MIT © 2025
+
+```
