@@ -1,0 +1,25 @@
+Package: concatstring
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+        person("Mikkel", "Noergaard", email = "mno21@student.aau.dk", role = c("aut", "cre")),
+        person("Chris Moeller", "Noergaard", email = "cnor21@student.aau.dk", role = "aut"),
+        person("Rasmus Flaathen", "Soender", email = "rsond21@student.aau.dk", role = "aut")
+    )
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Suggests: 
+    knitr,
+    rmarkdown,
+    tinytest
+NeedsCompilation: no
+Packaged: 2025-06-13 07:09:28 UTC; MikkelNørgaard
+Author: Mikkel Noergaard [aut, cre],
+  Chris Moeller Noergaard [aut],
+  Rasmus Flaathen Soender [aut]
+Maintainer: Mikkel Noergaard <mno21@student.aau.dk>
+VignetteBuilder: knitr
